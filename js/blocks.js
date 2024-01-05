@@ -9,6 +9,8 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, 51 Franklin Street, Suite 500 Boston, MA 02110-1335 USA
 
+const { LocalConvenienceStoreOutlined } = require("@material-ui/icons");
+
 /*
    global
 
@@ -441,25 +443,11 @@ class Blocks {
          * @returns {void}
          */
         this.adjustExpandableClampBlock = () => {
+            console.log("Entered adjustfunction");
             if (this.clampBlocksToCheck.length === 0) {
                 return;
             }
-
             const that = this;
-            const obj = this.clampBlocksToCheck.pop();
-            const blk = obj[0];
-            const clamp = obj[1];
-
-            const myBlock = this.blockList[blk];
-
-            if (myBlock.isArgFlowClampBlock() || myBlock.isLeftClampBlock()) {
-                /** Make sure myBlock is a clamp block. */
-            } else if (myBlock.isArgBlock() || myBlock.isTwoArgBlock()) {
-                return;
-            } else if (myBlock.isArgClamp()) {
-                /** We handle ArgClamp blocks elsewhere. */
-                this._adjustArgClampBlock([blk]);
-            }
 
             /**
              * Adjusts the clamp size
@@ -505,8 +493,27 @@ class Blocks {
                     that.adjustExpandableClampBlock();
                 }
             };
+            console.log("Happening");
+            
+            for(let i=0;i<this.clampBlocksToCheck.length;i++){
+            const obj = this.clampBlocksToCheck[i];
+             const blk = obj[0];
+            console.log(blk);
+            const clamp = obj[1];
+            console.log(clamp);
 
+            const myBlock = this.blockList[blk];
+
+            if (myBlock.isArgFlowClampBlock() || myBlock.isLeftClampBlock()) {
+                /** Make sure myBlock is a clamp block. */
+            } else if (myBlock.isArgBlock() || myBlock.isTwoArgBlock()) {
+                return;
+            } else if (myBlock.isArgClamp()) {
+                /** We handle ArgClamp blocks elsewhere. */
+                this._adjustArgClampBlock([blk]);
+            }
             __clampAdjuster(blk, myBlock, clamp);
+            }
         };
 
         /**

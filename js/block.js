@@ -2366,6 +2366,7 @@ class Block {
                 }
             }
         }
+        console.log("Toggled arg blocks1");
 
         // and the blocks inside the clamp.
         if (this.connections[2] !== null) {
@@ -2388,7 +2389,7 @@ class Block {
                 }
             }
         }
-
+        console.log("Toggled arg blocks2");
         // Reposition the blocks below.
         if (this.connections[3] != null) {
             // The last connection is flow. The second to last
@@ -2413,14 +2414,19 @@ class Block {
 
             this.blocks.adjustDocks(thisBlock, true);
         }
+        console.log("Toggled arg blocks3");
 
-        // Look to see if we are in a clamp block. If so, readjust.
         const clampList = [];
         this.blocks.findNestedClampBlocks(thisBlock, clampList);
+        console.log("Clamplist");
+        // console.log(this.blocks.blockList[clampList.pop()[0]]);
         if (clampList.length > 0) {
+            console.log("Entered");
             this.blocks.clampBlocksToCheck = clampList;
+            console.log("New change")
             this.blocks.adjustExpandableClampBlock();
         }
+        console.log("Toggled arg blocks4");
 
         this.activity.refreshCanvas();
     }
