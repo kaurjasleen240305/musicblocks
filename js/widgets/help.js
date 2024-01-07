@@ -70,6 +70,8 @@ class HelpWidget {
      * @returns {void}
      */
     _setup(useActiveBlock) {
+        console.log("hELLJNJKWENFNJKN");
+        console.log(useActiveBlock);
         // Which help page are we on?
         let page = 0;
 
@@ -308,6 +310,7 @@ class HelpWidget {
 
         // Previous HTML content is removed, and new one is generated. 
         let body = "";
+        // console.log(HELPCONTENT[page-1][0]);
         if (
             [
                 _("Welcome to Music Blocks"),
@@ -436,13 +439,20 @@ class HelpWidget {
         cell = docById("left-arrow");
 
         cell.onclick = () => {
-            if (this.index !== 0) {
-                this.index -= 1;
+            if(this.index==0){
+                const widgetWindow = window.widgetWindows.windowFor(this, "help", "help");
+                this.widgetWindow = widgetWindow;
+                widgetWindow.clear();
+                this._helpDiv = document.createElement("div");
+                this._setup(false);
             }
+            else{
+                this.index -= 1;
 
             this._blockHelp(
                 this.activity.blocks.protoBlockDict[this.appendedBlockList[this.index]]
             );
+            }
         };
         if (block.name !== null) {
             const label = block.staticLabels[0];
