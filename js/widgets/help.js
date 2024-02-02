@@ -92,6 +92,8 @@ class HelpWidget {
         let leftArrow, rightArrow;
         if (!useActiveBlock) {
             if (page == 0) {
+                // console.log("TAKE A TOUR);
+                console.log(_(HELPCONTENT[0][0]));
                 this.widgetWindow.updateTitle("TAKE A TOUR");
             }
             else {
@@ -391,7 +393,8 @@ class HelpWidget {
                             this.widgetWindow.updateTitle("TAKE A TOUR");
                         }
                         else {
-                            this.widgetWindow.updateTitle(HELPCONTENT[page][0]);
+                            // console.log(typeof(HELPCONTENT[page][0]));
+                            this.widgetWindow.updateTitle((HELPCONTENT[page][0]));
                         }
                         this._showPage(page);
                     }

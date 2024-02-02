@@ -124,6 +124,7 @@ class WidgetWindow {
         const titleEl = this._create("div", "wftTitle", this._nonclose);
         titleEl.innerHTML = "" ;
         titleEl.insertAdjacentHTML("afterbegin", _(this._title));
+        console.log(_(this._title));
         titleEl.id = `${this._key}WidgetID` ;
 
         this._nonclose.onmousedown = (e) => {

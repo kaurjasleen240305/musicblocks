@@ -67,7 +67,7 @@ class Toolbar {
                 ["disableHorizScrollIcon", _("Disable horizontal scrolling")],
                 ["mergeWithCurrentIcon", _("Merge with current project")],
                 ["chooseKeyIcon", _("Set Pitch Preview")],
-                ["toggleJavaScriptIcon", _("Toggle JavaScript Editor")],
+                ["toggleJavaScriptIcon", _("JavaScript Editor")],
                 ["restoreIcon", _("Restore")],
                 ["beginnerMode", _("Switch to beginner mode")],
                 ["advancedMode", _("Switch to advanced mode")],
@@ -128,7 +128,7 @@ class Toolbar {
                 _("Disable horizontal scrolling"),
                 _("Merge with current project"),
                 _("Set Pitch Preview"),
-                _("Toggle JavaScript Editor"),
+                _("JavaScript Editor"),
                 _("Restore"),
                 _("Switch to beginner mode"),
                 _("Switch to advanced mode"),
@@ -192,7 +192,7 @@ class Toolbar {
                 ["enableHorizScrollIcon", _("Enable horizontal scrolling")],
                 ["disableHorizScrollIcon", _("Disable horizontal scrolling")],
                 ["mergeWithCurrentIcon", _("Merge with current project")],
-                ["toggleJavaScriptIcon", _("Toggle JavaScript Editor")],
+                ["toggleJavaScriptIcon", _("JavaScript Editor")],
                 ["restoreIcon", _("Restore")],
                 ["beginnerMode", _("Switch to beginner mode")],
                 ["advancedMode", _("Switch to advanced mode")],
@@ -248,7 +248,7 @@ class Toolbar {
                 _("Enable horizontal scrolling"),
                 _("Disable horizontal scrolling"),
                 _("Merge with current project"),
-                _("Toggle JavaScript Editor"),
+                _("JavaScript Editor"),
                 _("Restore"),
                 _("Switch to beginner mode"),
                 _("Switch to advanced mode"),
@@ -367,6 +367,9 @@ class Toolbar {
         }
 
         var tempClick = playIcon.onclick = () => {
+            const hideMsgs = () => {
+                this.activity.hideMsgs();
+            };
             isPlayIconRunning = false;
             onclick(this.activity);
             handleClick();
@@ -377,6 +380,7 @@ class Toolbar {
             stopIcon.addEventListener("click", function(){
                 clearTimeout(play_button_debounce_timeout);
                 isPlayIconRunning = true;
+                hideMsgs();
                 handleClick();
             });
         };
@@ -440,8 +444,22 @@ class Toolbar {
             WRAP = !WRAP;
             if (WRAP) {
                 wrapButtonTooltipData = _("Turtle Wrap Off");
+                this.activity.helpfulWheelItems.forEach(ele => {
+                    if (ele.label === "Turtle Wrap Off") {
+                        ele.display = true;
+                    } else if (ele.label === "Turtle Wrap On") {
+                        ele.display = false;
+                    }
+                })
             } else {
                 wrapButtonTooltipData = _("Turtle Wrap On");
+                this.activity.helpfulWheelItems.forEach(ele => {
+                    if (ele.label === "Turtle Wrap Off") {
+                        ele.display = false;
+                    } else if (ele.label === "Turtle Wrap On") {
+                        ele.display = true;
+                    }
+                })
             }
 
             wrapIcon.setAttribute("data-tooltip", wrapButtonTooltipData);
@@ -450,6 +468,46 @@ class Toolbar {
                 delay: 100
             });
         };
+    }
+
+    /**
+     * @public
+     * @returns {void}
+     */
+    changeWrap(activity) {
+        const wrapIcon = docById("wrapTurtle");
+        let wrapButtonTooltipData = "";
+
+        WRAP = !WRAP;
+        if (WRAP) {
+            wrapButtonTooltipData = _("Turtle Wrap Off");
+            activity.helpfulWheelItems.forEach(ele => {
+                if (ele.label === "Turtle Wrap Off") {
+                    ele.display = true;
+                } else if (ele.label === "Turtle Wrap On") {
+                    ele.display = false;
+                }
+            })
+        } else {
+            wrapButtonTooltipData = _("Turtle Wrap On");
+            activity.helpfulWheelItems.forEach(ele => {
+                if (ele.label === "Turtle Wrap Off") {
+                    ele.display = false;
+                } else if (ele.label === "Turtle Wrap On") {
+                    ele.display = true;
+                }
+            })
+        }
+
+        wrapIcon.setAttribute("data-tooltip", wrapButtonTooltipData);
+        $j(".tooltipped").tooltip({
+            html: true,
+            delay: 100
+        });
+
+        if (docById("helpfulWheelDiv").style.display !== "none") {
+            docById("helpfulWheelDiv").style.display = "none";
+        }
     }
 
     /**
