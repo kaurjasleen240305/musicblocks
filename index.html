@@ -306,6 +306,20 @@
                     />
                 </div>
 
+                <div
+                    class="popupMsg"
+                    id="ClearButton"
+                    tabindex="-1"
+                >
+                    <span id="ClearContent"></span>
+                    <img
+                        class="msgCloseIcon"
+                        id="clearvis"
+                        src="images/close.svg"
+                        alt="Close"
+                    />
+                </div>
+
                 <script>
                     function hidePrintText() {
                         let printText = document.getElementById("printText");
@@ -317,6 +331,7 @@
                         errorText.classList.remove("show");
                         hideArrows(); // This function is declared in js/activity.js
                     }
+
                 </script>
 
                 <div id ="canvasContainer">
