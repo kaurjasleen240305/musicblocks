@@ -2332,6 +2332,7 @@ class Activity {
          * Handles keyboard shortcuts in MB
          */
         this.__keyPressed = (event) => {
+            console.log("Keypresed");
             if (window.widgetWindows.isOpen("JavaScript Editor") === true) return;
 
             if (!this.keyboardEnableFlag) {
@@ -2431,6 +2432,7 @@ class Activity {
             }
 
             if ((event.altKey && !disableKeys) || (event.keyCode == 13) || (event.key == '/') || (event.key == '\\') ) {
+                console.log("Yes in");
                 switch (event.keyCode) {
                     case 66: // 'B'
                         this.textMsg("Alt-B " + _("Saving block artwork"));
@@ -2455,18 +2457,22 @@ class Activity {
                         }
                         this._doFastButton();
                         break;
-                    case 13: // 'R or ENTER'
-                        this.textMsg("ENter " + _("Play"));
-                        let stopbt = document.getElementById("stop");
-                        if (stopbt) {
-                            stopbt.style.color = platformColor.stopIconcolor;
+                    case 13:  //ENTER
+                        if(this.searchWidget.style.visibility == "hidden"){
+                            this.textMsg("ENter " + _("Play"));
+                            let stopbt = document.getElementById("stop");
+                            if (stopbt) {
+                              stopbt.style.color = platformColor.stopIconcolor;
+                            }
+                            this._doFastButton();
                         }
-                        this._doFastButton();
                         break;
                     case 83: // 'S'
+                       if(this.searchWidget.style.visibility == "hidden"){
                         this.textMsg("Alt-S " + _("Stop"));
                         this.logo.doStopTurtles();
-                        break;
+                       }
+                       break;
                     case 86: // 'V'
                         this.textMsg("Alt-V " + _("Paste"));
                         this.blocks.pasteStack();
@@ -3013,18 +3019,19 @@ class Activity {
             }, 100);
         });
         window.addEventListener("orientationchange",  handleResize);
-
-        const that = this;
-        const screenWidth = window.innerWidth;
-        const  resizeCanvas_ = () => {
-            if (screenWidth !== window.innerWidth) {
+        const that = this;        
+        const resizeCanvas_ = () => {
+            try {
                 that._onResize(false);
+                document.getElementById("hideContents").click();
+            } catch (error) {
+                console.error("An error occurred in resizeCanvas_:", error);
             }
-            document.getElementById("hideContents").click();
         };
         
         resizeCanvas_();
-        window.addEventListener("orientationchange", resizeCanvas_ );
+        window.addEventListener("orientationchange", resizeCanvas_);
+        
         /*
          * Restore last stack pushed to trashStack back onto canvas.
          * Hides palettes before update
